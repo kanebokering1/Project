@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Work Order Management System">
+    <meta name="author" content="Your Company">
+
+    <title>Work Order Management System</title>
+
+    <!-- Custom fonts -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
+    <!-- Custom styles -->
+    <style>
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .status-in-progress {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .priority-high {
+            background-color: #f8d7da;
+            color: #721c24;
+            font-weight: bold;
+        }
+        .priority-medium {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .sidebar-brand-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .badge-counter {
+            position: relative;
+            top: -10px;
+            right: -5px;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Work Order System</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Operations
+            </div>
+
+            <!-- Nav Item - Work Orders -->
+            <li class="nav-item active">
+                <a class="nav-link" href="work-orders.html">
+                    <i class="fas fa-fw fa-clipboard-list"></i>
+                    <span>Work Orders</span></a>
+            </li>
+
+            <!-- Nav Item - Inventory -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventory" aria-expanded="true" aria-controls="collapseInventory">
+                    <i class="fas fa-fw fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <div id="collapseInventory" class="collapse" aria-labelledby="headingInventory" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Inventory Management:</h6>
+                        <a class="collapse-item" href="parts.html">Parts</a>
+                        <a class="collapse-item" href="suppliers.html">Suppliers</a>
+                        <a class="collapse-item" href="stock.html">Stock Levels</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Nav Item - Personnel -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePersonnel" aria-expanded="true" aria-controls="collapsePersonnel">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Personnel</span>
+                </a>
+                <div id="collapsePersonnel" class="collapse" aria-labelledby="headingPersonnel" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Personnel Management:</h6>
+                        <a class="collapse-item" href="technicians.html">Technicians</a>
+                        <a class="collapse-item" href="foremen.html">Foremen</a>
+                        <a class="collapse-item" href="customers.html">Customers</a>
+                    </div>
+                </div>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Reports
+            </div>
+
+            <!-- Nav Item - Reports -->
+            <li class="nav-item">
+                <a class="nav-link" href="reports.html">
+                    <i class="fas fa-fw fa-chart-bar"></i>
+                    <span>Reports</span></a>
+            </li>
+
+            <!-- Nav Item - Analytics -->
+            <li class="nav-item">
+                <a class="nav-link" href="analytics.html">
+                    <i class="fas fa-fw fa-chart-line"></i>
+                    <span>Analytics</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search work orders..." aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Alerts -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <!-- Counter - Alerts -->
+                                <span class="badge badge-danger badge-counter">3+</span>
+                            </a>
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Work Order Alerts
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Today</div>
+                                        <span class="font-weight-bold">High priority work order #WO-1024 requires attention</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-clock text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Yesterday</div>
+                                        Work order #WO-1018 is approaching deadline
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-success">
+                                            <i class="fas fa-check text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">Yesterday</div>
+                                        Work order #WO-1015 has been completed
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <!-- Nav Item - Messages -->
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                                <!-- Counter - Messages -->
+                                <span class="badge badge-danger badge-counter">2</span>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
+                                <h6 class="dropdown-header">
+                                    Message Center
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="...">
+                                        <div class="status-indicator bg-success"></div>
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        <div class="text-truncate">Customer follow-up needed for work order #WO-1012</div>
+                                        <div class="small text-gray-500">Customer Service · 1h ago</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="dropdown-list-image mr-3">
+                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="...">
+                                        <div class="status-indicator"></div>
+                                    </div>
+                                    <div>
+                                        <div class="text-truncate">Parts ordered for work order #WO-1020 have arrived</div>
+                                        <div class="small text-gray-500">Inventory · 1d ago</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin User</span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Work Order Management</h1>
+                        <button class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#newWorkOrderModal">
+                            <i class="fas fa-plus fa-sm text-white-50"></i> Create New Work Order
+                        </button>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row" id="summaryCards">
+                        <!-- Summary cards will be populated by JavaScript -->
+                    </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Work Order Details</h6>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary" id="exportExcel">
+                                    <i class="fas fa-file-excel"></i> Export
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" id="refreshData">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>WO No.</th>
+                                            <th>Report Date</th>
+                                            <th>Company</th>
+                                            <th>Unit No.</th>
+                                            <th>Unit Type</th>
+                                            <th>Issue</th>
+                                            <th>Priority</th>
+                                            <th>Status</th>
+                                            <th>Assigned To</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be populated by tables-data.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Work Order Management System 2023</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Work Order Modal -->
+    <div class="modal fade" id="newWorkOrderModal" tabindex="-1" role="dialog" aria-labelledby="newWorkOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="newWorkOrderModalLabel">Create New Work Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="workOrderForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="companyName">Company Name</label>
+                                    <select class="form-control" id="companyName" required>
+                                        <option value="">Select Company</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unitNumber">Unit Number</label>
+                                    <input type="text" class="form-control" id="unitNumber" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unitType">Unit Type</label>
+                                    <select class="form-control" id="unitType" required>
+                                        <option value="">Select Unit Type</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unitModel">Unit Model</label>
+                                    <input type="text" class="form-control" id="unitModel">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="issueDescription">Issue Description</label>
+                                    <textarea class="form-control" id="issueDescription" rows="3" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="priority">Priority</label>
+                                    <select class="form-control" id="priority" required>
+                                        <option value="low">Low</option>
+                                        <option value="medium" selected>Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="requestedDate">Requested Repair Date</label>
+                                    <input type="date" class="form-control" id="requestedDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="contactPerson">Contact Person</label>
+                                    <input type="text" class="form-control" id="contactPerson">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="contactNumber">Contact Number</label>
+                                    <input type="tel" class="form-control" id="contactNumber">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveWorkOrder">Save Work Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Work Order Modal -->
+    <div class="modal fade" id="editWorkOrderModal" tabindex="-1" role="dialog" aria-labelledby="editWorkOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="editWorkOrderModalLabel">Edit Work Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editWorkOrderForm">
+                        <input type="hidden" id="editWoId">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editCompanyName">Company Name</label>
+                                    <select class="form-control" id="editCompanyName" required>
+                                        <option value="">Select Company</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUnitNumber">Unit Number</label>
+                                    <input type="text" class="form-control" id="editUnitNumber" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUnitType">Unit Type</label>
+                                    <select class="form-control" id="editUnitType" required>
+                                        <option value="">Select Unit Type</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editUnitModel">Unit Model</label>
+                                    <input type="text" class="form-control" id="editUnitModel">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editIssueDescription">Issue Description</label>
+                                    <textarea class="form-control" id="editIssueDescription" rows="3" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editPriority">Priority</label>
+                                    <select class="form-control" id="editPriority" required>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editRequestedDate">Requested Repair Date</label>
+                                    <input type="date" class="form-control" id="editRequestedDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editContactPerson">Contact Person</label>
+                                    <input type="text" class="form-control" id="editContactPerson">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editContactNumber">Contact Number</label>
+                                    <input type="tel" class="form-control" id="editContactNumber">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editForeman">Assign Foreman</label>
+                                    <select class="form-control" id="editForeman">
+                                        <option value="">Select Foreman</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editMechanic">Assign Mechanic</label>
+                                    <select class="form-control" id="editMechanic">
+                                        <option value="">Select Mechanic</option>
+                                        <!-- Options will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editStatus">Status</label>
+                                    <select class="form-control" id="editStatus">
+                                        <option value="pending">Pending</option>
+                                        <option value="in-progress">In Progress</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editCompletionDate">Completion Date</label>
+                                    <input type="date" class="form-control" id="editCompletionDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRepairDetails">Repair Details</label>
+                            <textarea class="form-control" id="editRepairDetails" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPartsUsed">Parts Used</label>
+                            <textarea class="form-control" id="editPartsUsed" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="updateWorkOrder">Update Work Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Work Order Modal -->
+    <div class="modal fade" id="viewWorkOrderModal" tabindex="-1" role="dialog" aria-labelledby="viewWorkOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="viewWorkOrderModalLabel">Work Order Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5><strong>WO Number:</strong> <span id="viewWoNumber"></span></h5>
+                            <p><strong>Report Date:</strong> <span id="viewReportDate"></span></p>
+                            <p><strong>Company:</strong> <span id="viewCompany"></span></p>
+                            <p><strong>Unit Number:</strong> <span id="viewUnitNumber"></span></p>
+                            <p><strong>Unit Type:</strong> <span id="viewUnitType"></span></p>
+                            <p><strong>Unit Model:</strong> <span id="viewUnitModel"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Priority:</strong> <span id="viewPriority"></span></p>
+                            <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+                            <p><strong>Assigned Foreman:</strong> <span id="viewForeman"></span></p>
+                            <p><strong>Assigned Mechanic:</strong> <span id="viewMechanic"></span></p>
+                            <p><strong>Requested Repair Date:</strong> <span id="viewRequestedDate"></span></p>
+                            <p><strong>Completion Date:</strong> <span id="viewCompletionDate"></span></p>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h5>Contact Information</h5>
+                            <p><strong>Contact Person:</strong> <span id="viewContactPerson"></span></p>
+                            <p><strong>Contact Number:</strong> <span id="viewContactNumber"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Issue Description</h5>
+                            <p id="viewIssueDescription"></p>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h5>Repair Details</h5>
+                            <p id="viewRepairDetails"></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5>Parts Used</h5>
+                            <p id="viewPartsUsed"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="editFromView">Edit Work Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete work order <strong id="woToDelete">WO-XXXX</strong>? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/datatables-demo.js"></script>
+    
+    <!-- Custom scripts for connecting to Google Spreadsheet -->
+    <script src="tables-data.js"></script>
+
+    <!-- Custom scripts -->
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            var table = $('#dataTable').DataTable({
+                "order": [[0, "desc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": [9] }
+                ]
+            });
+            
+            // New Work Order button click
+            $('#saveWorkOrder').click(function() {
+                // Here you would typically submit the form via AJAX to your spreadsheet
+                alert('New work order created successfully!');
+                $('#newWorkOrderModal').modal('hide');
+                // Refresh the table data from spreadsheet
+                loadDataFromSpreadsheet();
+            });
+            
+            // Edit button click handler
+            $(document).on('click', '.edit-btn', function() {
+                var woId = $(this).data('id');
+                // Here you would typically load the data from spreadsheet via AJAX
+                // For demo purposes, we'll just show the modal
+                $('#editWorkOrderModal').modal('show');
+            });
+            
+            // View button click handler
+            $(document).on('click', '.view-btn', function() {
+                var woId = $(this).data('id');
+                // Here you would typically load the data from spreadsheet via AJAX
+                // For demo purposes, we'll just show the modal
+                $('#viewWorkOrderModal').modal('show');
+            });
+            
+            // Delete button click handler
+            $(document).on('click', '.delete-btn', function() {
+                var woNumber = $(this).closest('tr').find('td:first').text();
+                $('#woToDelete').text(woNumber);
+                $('#deleteConfirmationModal').modal('show');
+            });
+            
+            // Confirm delete button
+            $('#confirmDelete').click(function() {
+                // Here you would typically make an AJAX call to delete the record from spreadsheet
+                alert('Work order ' + $('#woToDelete').text() + ' has been deleted.');
+                $('#deleteConfirmationModal').modal('hide');
+                // Remove the row from the table
+                table.row($(this).parents('tr')).remove().draw();
+            });
+            
+            // Edit from view button
+            $('#editFromView').click(function() {
+                $('#viewWorkOrderModal').modal('hide');
+                $('#editWorkOrderModal').modal('show');
+            });
+            
+            // Update Work Order button
+            $('#updateWorkOrder').click(function() {
+                // Here you would typically submit the form via AJAX to update spreadsheet
+                alert('Work order updated successfully!');
+                $('#editWorkOrderModal').modal('hide');
+                // Refresh the table data from spreadsheet
+                loadDataFromSpreadsheet();
+            });
+            
+            // Export to Excel button
+            $('#exportExcel').click(function() {
+                alert('Exporting data to Excel...');
+                // In a real implementation, this would trigger a server-side export
+            });
+            
+            // Refresh Data button
+            $('#refreshData').click(function() {
+                loadDataFromSpreadsheet();
+                alert('Data refreshed from spreadsheet');
+            });
+            
+            // Function to load data from spreadsheet
+            function loadDataFromSpreadsheet() {
+                // This function should be implemented in tables-data.js
+                // It should make an AJAX call to your backend that connects to Google Sheets
+                // and then update the DataTable with the received data
+                console.log('Loading data from spreadsheet...');
+                // Example:
+                // $.get('/api/workorders', function(data) {
+                //     table.clear().rows.add(data).draw();
+                // });
+            }
+            
+            // Load initial data
+            loadDataFromSpreadsheet();
+        });
+    </script>
+
+</body>
+
+</html>
